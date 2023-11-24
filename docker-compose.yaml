@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  vite:
+    build:
+      context: ./
+      dockerfile: dev.Dockerfile
+    working_dir: /app
+    command: yarn dev
+    volumes:
+      - ./public:/app/public:delegated,rw
+      - ./src:/app/src:delegated,rw
+    ports:
+      - "5173:5173"

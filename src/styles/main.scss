@@ -1,0 +1,147 @@
+:root {
+  --aspect-ratio: 9 / 16;
+  --color-primary: #50ff76;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  height: 100svh;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+#app {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #272727;
+}
+
+#view {
+  --board-width: 100%; // set from js
+  --board-height: calc(var(--board-width) * (1 / (var(--aspect-ratio))));
+  --board-margin: calc(0.0278 * var(--board-width));
+  --board-margin-bottom: calc(0.25 * var(--board-width));
+  --dice-area-height: calc(var(--board-width) * 0.1667);
+
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: var(--aspect-ratio);
+  background: #000;
+  color: #fff;
+
+  .board {
+    position: absolute;
+    inset: 0;
+    background-image: url("./assets/board.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .dice-area {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--dice-area-height);
+    // background: var(--color-primary);
+
+    .btn-throw {
+      margin: 0;
+      padding: 1em 2em;
+      background: transparent;
+      border: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: calc(0.0389 * var(--board-width));
+      cursor: pointer;
+
+      .text {
+        margin-right: 0.75em;
+      }
+
+      img.icon {
+        width: calc(0.05 * var(--board-width));
+      }
+    }
+
+    .dice {
+      display: none;
+
+      .dice-side {
+        grid-area: 1 / 1;
+        width: calc(0.1112 * var(--board-width));
+        height: calc(0.1112 * var(--board-width));
+        opacity: 0;
+
+        @for $i from 1 through 6 {
+          &.dice-side--#{$i} {
+            background-image: url("./assets/dice-#{$i}.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+          }
+        }
+
+        &.active {
+          opacity: 1;
+        }
+      }
+    }
+
+    &.throwing {
+      .btn-throw {
+        display: none;
+      }
+
+      .dice {
+        display: grid;
+      }
+    }
+  }
+
+  .player {
+    --pos-x: 1;
+    --pos-y: 1;
+    --col: (var(--board-width) - var(--board-margin)) / 4;
+    --row: (var(--board-height) - var(--board-margin-bottom)) / 5;
+    --width: calc(0.0556 * var(--board-width));
+    --height: calc(0.125 * var(--board-width));
+    position: absolute;
+    width: var(--width);
+    height: var(--height);
+    background-image: url("./assets/player.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    transform: translate(
+      calc(var(--pos-x) * var(--col) + var(--col) * 0.4375),
+      calc(var(--pos-y) * var(--row) + var(--row) - var(--height))
+    );
+    transition: transform 1s ease-in-out;
+
+    &.start {
+      --pos-x: 0;
+      --pos-y: 4;
+      --row: (var(--board-height) - var(--dice-area-height)) / 5;
+      transition: none;
+    }
+  }
+}

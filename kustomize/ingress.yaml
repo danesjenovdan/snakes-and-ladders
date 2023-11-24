@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: snakes-and-ladders-nginx
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - snakes-and-ladders.lb.djnd.si
+      secretName: snakes-and-ladders-nginx-tls
+  rules:
+    - host: snakes-and-ladders.lb.djnd.si
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: snakes-and-ladders-nginx
+                port:
+                  number: 80

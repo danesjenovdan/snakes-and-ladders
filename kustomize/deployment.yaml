@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snakes-and-ladders
+  labels:
+    app: snakes-and-ladders
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snakes-and-ladders
+  template:
+    metadata:
+      labels:
+        app: snakes-and-ladders
+    spec:
+      containers:
+        - name: snakes-and-ladders-nginx
+          image: snakes-and-ladders
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP

@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Noe Display";
-  src: url("./fonts/Noe Display Bold.otf") format("opentype");
+  src: url("../fonts/NoeDisplayBold.otf") format("opentype");
   font-weight: 700;
   font-style: normal;
 }
@@ -58,7 +58,7 @@ body {
   .board {
     position: absolute;
     inset: 0;
-    background-image: url("./assets/board.png");
+    background-image: url("../assets/board.png");
     background-repeat: no-repeat;
     background-size: contain;
   }
@@ -107,7 +107,7 @@ body {
 
         @for $i from 1 through 6 {
           &.dice-side--#{$i} {
-            background-image: url("./assets/dice-#{$i}.png");
+            background-image: url("../assets/dice-#{$i}.png");
             background-repeat: no-repeat;
             background-size: contain;
           }
@@ -140,7 +140,7 @@ body {
     position: absolute;
     width: var(--width);
     height: var(--height);
-    background-image: url("./assets/player.png");
+    background-image: url("../assets/player.png");
     background-repeat: no-repeat;
     background-size: contain;
     transform: translate(
@@ -214,7 +214,7 @@ body {
         margin-inline: calc(var(--board-width) * 0.0417);
         background: transparent;
         border: 0;
-        background-image: url("./assets/close.png");
+        background-image: url("../assets/close.png");
         background-repeat: no-repeat;
         background-size: contain;
         text-indent: -9999px;

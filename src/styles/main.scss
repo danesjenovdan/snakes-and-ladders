@@ -1,6 +1,18 @@
+@font-face {
+  font-family: "Noe Display";
+  src: url("./fonts/Noe Display Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
 :root {
   --aspect-ratio: 9 / 16;
-  --color-primary: #50ff76;
+  --color-green: #50ff76;
+  --color-blue: #051a76;
+  --color-orange: #ff6400;
+
+  --main-font-family: "IBM Plex Sans", sans-serif;
+  --heading-font-family: "Noe Display", "Georgia";
 }
 
 html {
@@ -17,7 +29,7 @@ body {
   margin: 0;
   height: 100vh;
   height: 100svh;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: var(--main-font-family);
 }
 
 #app {
@@ -60,7 +72,7 @@ body {
     align-items: center;
     justify-content: center;
     height: var(--dice-area-height);
-    // background: var(--color-primary);
+    // background: var(--color-green);
 
     .btn-throw {
       margin: 0;
@@ -142,6 +154,101 @@ body {
       --pos-y: 4;
       --row: (var(--board-height) - var(--dice-area-height)) / 5;
       transition: none;
+    }
+  }
+}
+
+.modal-bg {
+  position: absolute;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.5);
+
+  &.open {
+    display: grid;
+  }
+
+  .modal {
+    --modal-color: var(--color-blue);
+    --modal-title-color: #fff;
+    background: #fff;
+    width: calc(var(--board-width) * 0.8334);
+    max-height: 85%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    color: #000;
+
+    &.modal--orange {
+      --modal-color: var(--color-orange);
+    }
+
+    &.modal--green {
+      --modal-color: var(--color-green);
+      --modal-title-color: #000;
+
+      .btn-modal-close {
+        filter: invert(1);
+      }
+    }
+
+    .modal-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--modal-color);
+
+      h2 {
+        margin: 0;
+        padding-block: calc(var(--board-width) * 0.0417);
+        padding-left: calc(var(--board-width) * 0.0834);
+        font-family: var(--heading-font-family);
+        font-weight: 700;
+        font-size: calc(var(--board-width) * 0.0667);
+        line-height: 1;
+        color: var(--modal-title-color);
+      }
+
+      .btn-modal-close {
+        width: calc(var(--board-width) * 0.0792);
+        height: calc(var(--board-width) * 0.0792);
+        margin-inline: calc(var(--board-width) * 0.0417);
+        background: transparent;
+        border: 0;
+        background-image: url("./assets/close.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        text-indent: -9999px;
+        cursor: pointer;
+      }
+    }
+
+    .modal-body {
+      padding: calc(var(--board-width) * 0.0834);
+      color: #000;
+      font-size: calc(var(--board-width) * 0.0417);
+      line-height: 1.3334;
+
+      p {
+        margin-top: 0;
+        margin-bottom: 2em;
+
+        &.big-number,
+        &.emphasised {
+          font-family: var(--heading-font-family);
+          font-weight: 700;
+          color: #000;
+          color: var(--modal-color);
+        }
+
+        &.big-number {
+          margin-bottom: 0.3334em;
+          font-size: calc(var(--board-width) * 0.1);
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
     }
   }
 }

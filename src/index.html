@@ -3,17 +3,28 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Snakes and Ladders</title>
+    <title>Kače in lestve</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
+    <style>
+      #view:not(.loaded) .board,
+      #view:not(.loaded) .dice-area,
+      #view:not(.loaded) .player,
+      #view:not(.loaded) .modal-bg {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <div id="app">
       <div id="view">
+        <div class="loader-area">
+          <div class="loader"></div>
+        </div>
         <div class="board"></div>
         <div class="dice-area">
           <button type="button" class="btn-throw">
@@ -33,7 +44,7 @@
         <div class="modal-bg">
           <div class="modal">
             <div class="modal-title">
-              <h2></h2>
+              <h2>Kače in lestve</h2>
               <button type="button" class="btn-modal-close">zapri</button>
             </div>
             <div class="modal-body"></div>

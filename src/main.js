@@ -1,10 +1,59 @@
 import "./styles/main.scss";
+import board from "./assets/board.png";
+import diceThrow from "./assets/sounds/dice-throw.mp3";
+import ladder from "./assets/sounds/ladder.mp3";
+import neutralField from "./assets/sounds/neutral-field.mp3";
+import snake from "./assets/sounds/snake.mp3";
+import victory from "./assets/sounds/victory.mp3";
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const sample = (array) => array[Math.floor(Math.random() * array.length)];
 
 const app = document.querySelector("#app");
 
 const MESSAGES = [
+  // start
+  {
+    position: "start",
+    color: "green",
+    hideCloseButton: true,
+    title: "Kače in lestve",
+    message: `
+      <p>Z metanjem kocke poskusi kupiti stanovaje v trenutnih pogojih nepremičninskega trga v Sloveniji.</p>
+      <p>Vmes te čakajo posebna polja z informacijami - kače predstavljajo ovire, lestve pa spodbude na tvoji poti do novega doma.</p>
+      <p>
+        <button type="button">ZAČNI IGRO</button>
+      </p>
+    `,
+  },
+  // regular
+  {
+    position: "none",
+    color: "gray",
+    title: "Ali veš?",
+    message: `
+      <p class="big-number">5000</p>
+      <p class="emphasised">novih javnih stanovanj so stanovanjski skladi zgradili od leta 2015.</p>
+    `,
+  },
+  {
+    position: "none",
+    color: "gray",
+    title: "Ali veš?",
+    message: `
+      <p class="big-number">46 %</p>
+      <p class="emphasised">višje cene stanovanj imamo, kot v preteklih treh letih.</p>
+    `,
+  },
+  {
+    position: "none",
+    color: "gray",
+    title: "Ali veš?",
+    message: `
+      <p class="big-text">»Država ustvarja možnosti, da si državljani lahko pridobijo primerno stanovanje.«</p>
+      <p>– Ustava Republike Slovenije</p>
+    `,
+  },
   // snakes
   {
     position: 5,
@@ -75,13 +124,59 @@ const MESSAGES = [
       <p>Čestitam, kupil si stanovanje!</p>
       <p>Marsikdo nima ali takšne sreče ali takšnih možnosti. Premajhno število stanovanj na trgu in konkurenca premožnejših kupcev se pogosto izkažeta kot previsoki oviri in iskalce stanovanj pahneta na pretežno nereguliran najemniški trg.</p>
       <p>Kdo so kupci novih nepremičnin na ljubljanskem in obalnem trgu ter v alpskem turističnem območju ter kakšne so prakse nakupovanja stanovanj, preberi v na povezavi.</p>
+      <p>
+        <a class="button" href="https://www.ostro.si/" target="_blank">PREBERI VEČ</a>
+      </p>
     `,
   },
 ];
 
 const gameState = {
   currentPosition: 0,
+  images: {
+    board: { url: board },
+  },
+  sounds: {
+    throw: { url: diceThrow },
+    ladder: { url: ladder },
+    none: { url: neutralField },
+    snake: { url: snake },
+    win: { url: victory },
+  },
 };
+
+async function preloadImages() {
+  const promises = Object.values(gameState.images).map((image) => {
+    return new Promise((resolve) => {
+      image.img = new Image();
+      image.img.src = image.url;
+      image.img.addEventListener("load", resolve);
+      image.img.addEventListener("error", resolve);
+    });
+  });
+  await Promise.all(promises);
+}
+
+async function preloadSounds() {
+  const promises = Object.values(gameState.sounds).map((sound) => {
+    return new Promise((resolve) => {
+      sound.audio = new Audio(sound.url);
+      sound.audio.addEventListener("canplaythrough", resolve);
+      sound.audio.addEventListener("error", resolve);
+    });
+  });
+  await Promise.all(promises);
+}
+
+function playSound(type) {
+  const sound = gameState.sounds[type];
+  if (!sound) {
+    return;
+  }
+  sound.audio.currentTime = 0;
+  sound.audio.volume = 0.5;
+  sound.audio.play();
+}
 
 function isSnakeOrLadder(position) {
   const snakes = [5, 15, 17];
@@ -97,6 +192,13 @@ function isSnakeOrLadder(position) {
     return { type: "snake", move };
   }
   return { type: "none", move: 0 };
+}
+
+function hideLoader() {
+  const view = document.querySelector("#view");
+  const loaderArea = view.querySelector(".loader-area");
+  loaderArea.classList.add("hidden");
+  view.classList.add("loaded");
 }
 
 function fixAspectRatio() {
@@ -122,15 +224,23 @@ async function throwDice(diceSides) {
     diceNumber = randomSide + 1;
     diceSides.forEach((side) => side.classList.remove("active"));
     diceSides[randomSide].classList.add("active");
-    await wait(100);
+    await wait(150);
   }
   return diceNumber;
 }
 
 async function updatePlayerPosition(diceNumber) {
-  gameState.currentPosition += diceNumber;
-  if (gameState.currentPosition > 19) {
-    gameState.currentPosition = 19;
+  const player = document.querySelector(".player");
+
+  if (diceNumber === "reset") {
+    gameState.currentPosition = 0;
+    player.classList.add("start");
+  } else {
+    gameState.currentPosition += diceNumber;
+    if (gameState.currentPosition > 19) {
+      gameState.currentPosition = 19;
+    }
+    player.classList.remove("start");
   }
 
   const posY = 4 - Math.floor(gameState.currentPosition / 4);
@@ -139,8 +249,6 @@ async function updatePlayerPosition(diceNumber) {
     posX = 3 - posX;
   }
 
-  const player = document.querySelector(".player");
-  player.classList.remove("start");
   player.style.setProperty("--pos-x", posX);
   player.style.setProperty("--pos-y", posY);
 
@@ -155,12 +263,17 @@ function openModal(position) {
   const modalTitle = modal.querySelector(".modal-title h2");
   const modalBody = modal.querySelector(".modal-body");
 
-  const message = MESSAGES.find((m) => m.position === position);
+  const messages = MESSAGES.filter((m) => m.position === position);
+  const message = sample(messages);
   if (!message) {
     return { modalClosed: Promise.resolve() };
   }
 
   modal.classList.add(`modal--${message.color}`);
+  if (message.hideCloseButton) {
+    closeButton.classList.add("hidden");
+  }
+
   modalTitle.textContent = message.title;
   modalBody.innerHTML = message.message;
 
@@ -169,10 +282,30 @@ function openModal(position) {
     resolveModalClosed = resolve;
   });
 
-  closeButton.addEventListener("click", () => {
+  function closeModal() {
+    closeButton.removeEventListener("click", closeModal);
+    modalBg.removeEventListener("click", closeModal);
+
     modalBg.classList.remove("open");
-    modal.classList.remove("modal--blue", "modal--orange", "modal--green");
+    modal.classList.remove(
+      "modal--blue",
+      "modal--orange",
+      "modal--green",
+      "modal--gray"
+    );
+    closeButton.classList.remove("hidden");
     resolveModalClosed();
+  }
+
+  closeButton.addEventListener("click", closeModal);
+  modalBg.addEventListener("click", (event) => {
+    if (event.target === modalBg) {
+      closeModal();
+    }
+    const button = event.target.closest(".modal-body button");
+    if (button) {
+      closeModal();
+    }
   });
 
   modalBg.classList.add("open");
@@ -189,25 +322,29 @@ async function onThrowClick(event) {
 
   button.disabled = true;
   diceArea.classList.add("throwing");
+  playSound("throw");
 
   const diceNumber = await throwDice(diceSides);
   await updatePlayerPosition(diceNumber);
-  await wait(400);
 
   if (gameState.currentPosition > 18) {
-    diceSides.forEach((side) => side.classList.remove("active"));
+    playSound("win");
+    await wait(400);
     const { modalClosed } = openModal("win");
     await modalClosed;
+    await updatePlayerPosition("reset");
+  } else {
+    const { type, move } = isSnakeOrLadder(gameState.currentPosition);
+    playSound(type);
     await wait(400);
-    return;
-  }
-
-  const { type, move } = isSnakeOrLadder(gameState.currentPosition);
-  if (type !== "none") {
-    const { modalClosed } = openModal(gameState.currentPosition);
-    await modalClosed;
-    await updatePlayerPosition(move);
-    await wait(400);
+    if (type !== "none") {
+      const { modalClosed } = openModal(gameState.currentPosition);
+      await modalClosed;
+      await updatePlayerPosition(move);
+    } else {
+      const { modalClosed } = openModal("none");
+      await modalClosed;
+    }
   }
 
   diceSides.forEach((side) => side.classList.remove("active"));
@@ -215,11 +352,19 @@ async function onThrowClick(event) {
   button.disabled = false;
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+async function main() {
   window.addEventListener("resize", fixAspectRatio);
   fixAspectRatio();
+
+  await Promise.all([document.fonts.ready, preloadImages(), preloadSounds()]);
+  hideLoader();
+
+  const { modalClosed } = openModal("start");
+  await modalClosed;
 
   document
     .querySelector(".dice-area .btn-throw")
     .addEventListener("click", onThrowClick);
-});
+}
+
+main();

@@ -3,6 +3,7 @@
   src: url("../fonts/NoeDisplayBold.otf") format("opentype");
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
 }
 
 :root {
@@ -10,9 +11,10 @@
   --color-green: #50ff76;
   --color-blue: #051a76;
   --color-orange: #ff6400;
+  --color-gray: #646464;
 
   --main-font-family: "IBM Plex Sans", sans-serif;
-  --heading-font-family: "Noe Display", "Georgia";
+  --heading-font-family: "Noe Display", "Georgia", serif;
 }
 
 html {
@@ -54,6 +56,45 @@ body {
   aspect-ratio: var(--aspect-ratio);
   background: #000;
   color: #fff;
+
+  .loader-area {
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    background-image: url("../assets/board-thumb.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: opacity 0.5s linear;
+
+    &.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loader {
+      width: calc(0.25 * var(--board-width));
+      height: calc(0.25 * var(--board-width));
+      border: calc(0.0389 * var(--board-width)) solid var(--color-blue);
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+  }
 
   .board {
     position: absolute;
@@ -182,6 +223,10 @@ body {
       --modal-color: var(--color-orange);
     }
 
+    &.modal--gray {
+      --modal-color: var(--color-gray);
+    }
+
     &.modal--green {
       --modal-color: var(--color-green);
       --modal-title-color: #000;
@@ -219,6 +264,10 @@ body {
         background-size: contain;
         text-indent: -9999px;
         cursor: pointer;
+
+        &.hidden {
+          display: none;
+        }
       }
     }
 
@@ -233,6 +282,7 @@ body {
         margin-bottom: 2em;
 
         &.big-number,
+        &.big-text,
         &.emphasised {
           font-family: var(--heading-font-family);
           font-weight: 700;
@@ -245,9 +295,31 @@ body {
           font-size: calc(var(--board-width) * 0.1);
         }
 
+        &.big-text {
+          margin-bottom: 0.3334em;
+          font-size: calc(var(--board-width) * 0.0667);
+        }
+
         &:last-child {
           margin-bottom: 0;
         }
+      }
+
+      button,
+      a.button {
+        display: block;
+        padding: calc(var(--board-width) * 0.0293) 0;
+        width: 100%;
+        background: var(--color-blue);
+        border: 0;
+        border-radius: 5em;
+        font-family: inherit;
+        font-size: calc(var(--board-width) * 0.0417);
+        font-weight: 500;
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
       }
     }
   }

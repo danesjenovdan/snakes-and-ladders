@@ -19,11 +19,13 @@ const MESSAGES = [
     hideCloseButton: true,
     title: "Kače in lestve",
     message: `
-      <p>Z metanjem kocke poskusi kupiti stanovaje v trenutnih pogojih nepremičninskega trga v Sloveniji.</p>
-      <p>Vmes te čakajo posebna polja z informacijami - kače predstavljajo ovire, lestve pa spodbude na tvoji poti do novega doma.</p>
-      <p>
-        <button type="button">ZAČNI IGRO</button>
-      </p>
+      <div class="modal-body__main">
+        <p>Misija: nakup stanovanja v aktualnih razmerah na slovenskem nepremičninskem trgu.</p>
+        <p>Na poti do novega doma vas bodo ovirale kače, lestve pa vam bodo pomagale.</p>
+        <p>
+          <button type="button">Vrzi kocko!</button>
+        </p>
+      </div>
     `,
   },
   // regular
@@ -32,8 +34,10 @@ const MESSAGES = [
     color: "gray",
     title: "Ali veš?",
     message: `
-      <p class="big-number">5000</p>
-      <p class="emphasised">novih javnih stanovanj so stanovanjski skladi zgradili od leta 2015.</p>
+      <div class="modal-body__main">
+        <p class="big-number">39,9 %</p>
+        <p class="emphasised">tržnih najemnikov živi v prenaseljenih stanovanjih</p>
+      </div>
     `,
   },
   {
@@ -41,8 +45,10 @@ const MESSAGES = [
     color: "gray",
     title: "Ali veš?",
     message: `
-      <p class="big-number">46 %</p>
-      <p class="emphasised">višje cene stanovanj imamo, kot v preteklih treh letih.</p>
+      <div class="modal-body__main">
+        <p class="big-number">98 %</p>
+        <p class="emphasised">višje so povprečne cene rabljenih stanovanj kot leta 2015</p>
+      </div>
     `,
   },
   {
@@ -50,8 +56,43 @@ const MESSAGES = [
     color: "gray",
     title: "Ali veš?",
     message: `
-      <p class="big-text">»Država ustvarja možnosti, da si državljani lahko pridobijo primerno stanovanje.«</p>
-      <p>– Ustava Republike Slovenije</p>
+      <div class="modal-body__main">
+        <p class="big-text">»Država ustvarja možnosti, da si državljani lahko pridobijo primerno stanovanje.«</p>
+        <p>Ustava Republike Slovenije</p>
+      </div>
+    `,
+  },
+  {
+    position: "none",
+    color: "gray",
+    title: "Ali veš?",
+    message: `
+      <div class="modal-body__main">
+        <p class="big-number">1200</p>
+        <p class="emphasised">novih stanovanj je bilo v prvi polovici leta na trgu, dobra polovica v Ljubljani</p>
+      </div>
+    `,
+  },
+  {
+    position: "none",
+    color: "gray",
+    title: "Ali veš?",
+    message: `
+      <div class="modal-body__main">
+        <p class="big-text">»Zaradi nekakovostnega poročanja je višina izračunanih stanovanjskih najemnin v poročilu problematična.«</p>
+        <p>Geodetska uprava leta 2017 v zadnjem poročilu o stanovanjskem najemnem trgu</p>
+      </div>
+    `,
+  },
+  {
+    position: "none",
+    color: "gray",
+    title: "Ali veš?",
+    message: `
+      <div class="modal-body__main">
+        <p class="big-number">1207</p>
+        <p class="emphasised">stanovanj v novogradnjah je v lasti stanovanjskih skladov, občin in nepremičninskega sklada PIZ</p>
+      </div>
     `,
   },
   // snakes
@@ -60,9 +101,13 @@ const MESSAGES = [
     color: "blue",
     title: "Kača",
     message: `
-      <p>Ni ti usojeno, stanovanje je pravkar kupil investitor. Lahko bi postal tvoj dom, zdaj pa ga bo investitor ali kratkoročno oddajal turistom, ali dolgoročno najemnikom, ali pa bo ostalo kar prazno in zgolj ohranjalo vrednost.</p>
-      <p class="big-number">10 %</p>
-      <p class="emphasised">novih nepremičnin so kupili kupci kot investicijo.</p>
+      <div class="modal-body__main">
+        <p>Ni ti usojeno – stanovanje je pravkar kupil premožnejši kupec! Najbrž ga bo oddal v najem, dolgoročni ali za turiste, ali pa bo ostalo kar prazno.</p>
+      </div>
+      <div class="modal-body__extra">
+        <p class="big-number">19 %</p>
+        <p class="emphasised">stanovanj v novogradnjah je naložbenih</p>
+      </div>
     `,
   },
   {
@@ -70,9 +115,13 @@ const MESSAGES = [
     color: "blue",
     title: "Kača",
     message: `
-      <p>Prav nimaš sreče. Ogledoval si si stanovanje, zdaj pa ga kupila oseba, ki že ima dom in išče drugo nepremičnino. Morda bo v njej občasno prespala, morda bodo v njem živeli otroci, možno pa je tudi, da ga bo na črno oddajala.</p>
-      <p class="big-number">33 %</p>
-      <p class="emphasised">lastnikov novih stanovanj v njih nimajo niti stalnega prebivališča niti ga ne oddajajo.</p>
+      <div class="modal-body__main">
+        <p>Ne bo šlo 🙁. Stanovanje, ki bi bilo idealno zate, bo kupil nekdo, ki ga že ima, išče pa še eno. Morda bo v njem občasno prespal, morda bodo v njem živeli otroci, morda pa bo ostalo prazno.</p>
+      </div>
+      <div class="modal-body__extra">
+        <p class="big-number">29 %</p>
+        <p class="emphasised">stanovanj v novogradnjah so kupili kupci, ki tam niso prijavili prebivališča, niti stanovanja uradno ne oddajajo v najem</p>
+      </div>
     `,
   },
   {
@@ -80,9 +129,13 @@ const MESSAGES = [
     color: "blue",
     title: "Kača",
     message: `
-      <p>Sprijazni se, pač nisi "pravi" kupec. Banka je ugodnejše posojilo ponu-dila kupcu, ki stanovanje kupuje za investicijo in ne za svoj dom.</p>
-      <p class="big-number">15 %</p>
-      <p class="emphasised">tistih, ki so stanovanje kupili kot investicijo, je za to potrebovalo posojilo. Med tistimi, ki so nova stanovanja kupili za bivanje, je takšnih skoraj polovica.</p>
+      <div class="modal-body__main">
+        <p>V manjši dom bo treba! Banka ti je z dvigom obrestnih mer prekrižala načrte. Ne moreš več tekmovati s kupci, ki posojila sploh ne potrebujejo.</p>
+      </div>
+      <div class="modal-body__extra">
+        <p class="big-number">62 %</p>
+        <p class="emphasised">kupcev novih stanovanj v Ljubljani za nakup ni potrebovalo posojila</p>
+      </div>
     `,
   },
   // ladders
@@ -91,9 +144,13 @@ const MESSAGES = [
     color: "orange",
     title: "Lestev",
     message: `
-      <p>Priložnost zate? Stanovanjski sklad je zgradil novo sosesko in stanovanja oddaja v najem. Medtem pa povpraševanje po nakupu upada.</p>
-      <p class="big-number">20 %</p>
-      <p class="emphasised">novih stanovanj v Ljubljani, na Obali in v alpskem turističnem območju je javnih stanovanj. Gradnja javnih najemnih stanovanj je po mnenju stroke najučinkovitejši način za povečanje njihove dostopnosti.</p>
+      <div class="modal-body__main">
+        <p>Naložbe v gradnjo stanovanj rastejo. Ponudba se bo postopno začela približevati potrebam.</p>
+      </div>
+      <div class="modal-body__extra">
+        <p class="big-number">5,9 % BDP</p>
+        <p class="emphasised">gospodarstva EU povprečno namenijo gradnji stanovanj, Slovenija pa le 2,8 %</p>
+      </div>
     `,
   },
   {
@@ -101,8 +158,13 @@ const MESSAGES = [
     color: "orange",
     title: "Lestev",
     message: `
-      <p>Počasi se le premika. Občina je uvedla aktivno zemljiško politiko in določila območja, v kateri je dovoljeno le lastništvo stanovanj, ki so namenjena primarnemu prebivališču.</p>
-      <p class="emphasised">Tako ureditev že poznajo denimo v več avstrijskih zveznih deželah. S tako politiko bi lahko zajezili špekulativne nakupe stanovanj in s tem rast cen.</p>
+      <div class="modal-body__main">
+        <p>Počasi se premika! Vlada je uvedla nepremičninski davek, zato so stanovanja manj privlačna naložba.</p>
+      </div>
+      <div class="modal-body__extra">
+        <p class="big-number">0,5 % BDP</p>
+        <p class="emphasised">je leta 2021 v Sloveniji znašala obdavčitev nepremičnin; povprečje EU je 1,1 %</p>
+      </div>
     `,
   },
   {
@@ -110,9 +172,12 @@ const MESSAGES = [
     color: "orange",
     title: "Lestev",
     message: `
-      <p>Drugače ne gre. Podedoval si 200.000 evrov.</p>
-      <p class="big-number">99 %</p>
-      <p class="emphasised">mladih se zanaša na pomoč staršev pri reševanju stanovanjskega problema, kažejo rezultati raziskave Hotel mama.</p>
+      <div class="modal-body__main">
+        <p>Dobra novica! Tvoja občina je omejila oddajo stanovanj turistom.</p>
+      </div>
+      <div class="modal-body__extra">
+        <p class="emphasised">V pripravi je nov zakon o gostinstvu, nekatere občine pa so se že zavzele za več pristojnosti pri regulaciji turističnega oddajanja.</p>
+      </div>
     `,
   },
   // win
@@ -121,18 +186,21 @@ const MESSAGES = [
     color: "green",
     title: "Konec",
     message: `
-      <p>Čestitam, kupil si stanovanje!</p>
-      <p>Marsikdo nima ali takšne sreče ali takšnih možnosti. Premajhno število stanovanj na trgu in konkurenca premožnejših kupcev se pogosto izkažeta kot previsoki oviri in iskalce stanovanj pahneta na pretežno nereguliran najemniški trg.</p>
-      <p>Kdo so kupci novih nepremičnin na ljubljanskem in obalnem trgu ter v alpskem turističnem območju ter kakšne so prakse nakupovanja stanovanj, preberi v na povezavi.</p>
-      <p>
-        <a class="button" href="https://www.ostro.si/" target="_blank">PREBERI VEČ</a>
-      </p>
+      <div class="modal-body__main">
+        <p>Čestitamo, končno imaš stanovanje!</p>
+        <p>Toda mnogim ni uspelo. Premajhno število stanovanj na trgu in tekmovanje s premožnejšimi kupci sta pogosto previsoki oviri za iskalce stanovanj, zato pristanejo na slabo reguliranem najemniškem trgu.</p>
+        <p>Skoraj petina nakupov stanovanj v novogradnjah v Ljubljani, na Obali in v alpskem turističnem območju je naložbenih, je pokazala nova preiskava Oštra. V središču Ljubljane lastniki živijo le v vsakem petem stanovanju, v Kranjski Gori pa jih je več kot polovica namenjenih turizmu.</p>
+        <p>
+          <a class="button" href="https://www.ostro.si/" target="_blank">Preberi več</a>
+        </p>
+      </div>
     `,
   },
 ];
 
 const gameState = {
   currentPosition: 0,
+  shownMessages: [],
   images: {
     board: { url: board },
   },
@@ -234,6 +302,7 @@ async function updatePlayerPosition(diceNumber) {
 
   if (diceNumber === "reset") {
     gameState.currentPosition = 0;
+    gameState.shownMessages = [];
     player.classList.add("start");
   } else {
     gameState.currentPosition += diceNumber;
@@ -263,11 +332,19 @@ function openModal(position) {
   const modalTitle = modal.querySelector(".modal-title h2");
   const modalBody = modal.querySelector(".modal-body");
 
-  const messages = MESSAGES.filter((m) => m.position === position);
+  let messages = MESSAGES.filter(
+    (m) => m.position === position && !gameState.shownMessages.includes(m)
+  );
+  if (!messages.length) {
+    messages = MESSAGES.filter((m) => m.position === position);
+  }
+
   const message = sample(messages);
   if (!message) {
     return { modalClosed: Promise.resolve() };
   }
+
+  gameState.shownMessages.push(message);
 
   modal.classList.add(`modal--${message.color}`);
   if (message.hideCloseButton) {
@@ -362,9 +439,10 @@ async function main() {
   const { modalClosed } = openModal("start");
   await modalClosed;
 
-  document
-    .querySelector(".dice-area .btn-throw")
-    .addEventListener("click", onThrowClick);
+  const throwButton = document.querySelector(".dice-area .btn-throw");
+  throwButton.addEventListener("click", onThrowClick);
+
+  onThrowClick({ currentTarget: throwButton });
 }
 
 main();

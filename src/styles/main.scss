@@ -7,11 +7,20 @@
 }
 
 :root {
+  $color-green: #50ff76;
+  $color-blue: #051a76;
+  $color-orange: #ff6400;
+  $color-gray: #646464;
+
   --aspect-ratio: 9 / 16;
-  --color-green: #50ff76;
-  --color-blue: #051a76;
-  --color-orange: #ff6400;
-  --color-gray: #646464;
+  --color-green: #{$color-green};
+  --color-green-light: #{rgba($color-green, 0.1)};
+  --color-blue: #{$color-blue};
+  --color-blue-light: #{rgba($color-blue, 0.1)};
+  --color-orange: #{$color-orange};
+  --color-orange-light: #{rgba($color-orange, 0.1)};
+  --color-gray: #{$color-gray};
+  --color-gray-light: #{rgba($color-gray, 0.1)};
 
   --main-font-family: "IBM Plex Sans", sans-serif;
   --heading-font-family: "Noe Display", "Georgia", serif;
@@ -212,23 +221,38 @@ body {
 
   .modal {
     --modal-color: var(--color-blue);
+    --modal-color-light: var(--color-blue-light);
     --modal-title-color: #fff;
     background: #fff;
     width: calc(var(--board-width) * 0.8334);
-    max-height: 85%;
+    max-height: 95%;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     color: #000;
+    overflow: hidden;
+    overflow-y: auto;
 
     &.modal--orange {
       --modal-color: var(--color-orange);
+      --modal-color-light: var(--color-orange-light);
     }
 
     &.modal--gray {
       --modal-color: var(--color-gray);
+      --modal-color-light: var(--color-gray-light);
+
+      .modal-body p {
+        color: var(--modal-color);
+
+        &.big-number,
+        &.big-text {
+          color: #000;
+        }
+      }
     }
 
     &.modal--green {
       --modal-color: var(--color-green);
+      --modal-color-light: var(--color-green-light);
       --modal-title-color: #000;
 
       .btn-modal-close {
@@ -272,21 +296,28 @@ body {
     }
 
     .modal-body {
-      padding: calc(var(--board-width) * 0.0834);
       color: #000;
       font-size: calc(var(--board-width) * 0.0417);
       line-height: 1.3334;
 
+      .modal-body__main,
+      .modal-body__extra {
+        padding: calc(var(--board-width) * 0.0834);
+      }
+
+      .modal-body__extra {
+        background: var(--modal-color-light);
+      }
+
       p {
         margin-top: 0;
-        margin-bottom: 2em;
+        margin-bottom: 1.5em;
 
         &.big-number,
         &.big-text,
         &.emphasised {
           font-family: var(--heading-font-family);
           font-weight: 700;
-          color: #000;
           color: var(--modal-color);
         }
 
@@ -319,6 +350,7 @@ body {
         color: #fff;
         text-align: center;
         text-decoration: none;
+        text-transform: uppercase;
         cursor: pointer;
       }
     }

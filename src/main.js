@@ -90,8 +90,8 @@ const MESSAGES = [
     title: "Ali veš?",
     message: `
       <div class="modal-body__main">
-        <p class="big-number">1207</p>
-        <p class="emphasised">stanovanj v novogradnjah je v lasti stanovanjskih skladov, občin in nepremičninskega sklada PIZ</p>
+        <p class="big-number">1246</p>
+        <p class="emphasised">stanovanj v novogradnjah je v lasti stanovanjskih skladov, občin, države in nepremičninskega sklada PIZ</p>
       </div>
     `,
   },

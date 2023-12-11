@@ -8,4 +8,4 @@ resources:
 images:
   - name: snakes-and-ladders
     newName: rg.fr-par.scw.cloud/djnd/snakes-and-ladders
-    newTag: 'f847d1d8b40c949e52d9e2956966396def817de2'
+    newTag: '561dd3bc697b881ac3d0c7b58f381a1da7917dfe'

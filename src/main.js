@@ -191,7 +191,7 @@ const MESSAGES = [
         <p>Toda mnogim ni uspelo. Premajhno število stanovanj na trgu in tekmovanje s premožnejšimi kupci sta pogosto previsoki oviri za iskalce stanovanj, zato pristanejo na slabo reguliranem najemniškem trgu.</p>
         <p>Skoraj petina nakupov stanovanj v novogradnjah v Ljubljani, na Obali in v alpskem turističnem območju je naložbenih, je pokazala nova preiskava Oštra. V središču Ljubljane lastniki živijo le v vsakem petem stanovanju, v Kranjski Gori pa jih je več kot polovica namenjenih turizmu.</p>
         <p>
-          <a class="button" href="https://www.ostro.si/" target="_blank">Preberi več</a>
+          <a class="button" href="https://www.ostro.si/si/zakon-nepremicninske-dzungle" target="_blank">Preberi več</a>
         </p>
       </div>
     `,

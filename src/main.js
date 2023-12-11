@@ -217,9 +217,9 @@ async function preloadImages() {
   const promises = Object.values(gameState.images).map((image) => {
     return new Promise((resolve) => {
       image.img = new Image();
-      image.img.src = image.url;
       image.img.addEventListener("load", resolve);
       image.img.addEventListener("error", resolve);
+      image.img.src = image.url;
     });
   });
   await Promise.all(promises);
@@ -440,7 +440,12 @@ function preload() {
     resolvePreload();
   }, 5000);
 
-  Promise.all([document.fonts.ready, preloadImages(), preloadSounds()]).then(
+  Promise.all([
+    //document.fonts.ready,
+    preloadImages(),
+    preloadSounds(),
+  ]).then(
+    () => resolvePreload(),
     () => resolvePreload()
   );
 

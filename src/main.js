@@ -429,18 +429,57 @@ async function onThrowClick(event) {
   button.disabled = false;
 }
 
+function preload() {
+  let resolvePreload;
+  const promise = new Promise((resolve) => {
+    resolvePreload = resolve;
+  });
+
+  // timeout preload
+  setTimeout(() => {
+    resolvePreload();
+  }, 5000);
+
+  Promise.all([document.fonts.ready, preloadImages(), preloadSounds()]).then(
+    () => resolvePreload()
+  );
+
+  return promise;
+}
+
 async function main() {
+  const debugEl = document.getElementById("debug");
+  debugEl.style.backgroundColor = "orange";
+  debugEl.textContent = "1";
+
   window.addEventListener("resize", fixAspectRatio);
   fixAspectRatio();
 
-  await Promise.all([document.fonts.ready, preloadImages(), preloadSounds()]);
-  hideLoader();
+  debugEl.style.backgroundColor = "cyan";
+  debugEl.textContent = "2";
+
+  try {
+    await preload();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    hideLoader();
+  }
+
+  debugEl.style.backgroundColor = "lime";
+  debugEl.textContent = "3";
 
   const { modalClosed } = openModal("start");
   await modalClosed;
 
+  debugEl.style.backgroundColor = "pink";
+  debugEl.textContent = "4";
+
   const throwButton = document.querySelector(".dice-area .btn-throw");
   throwButton.addEventListener("click", onThrowClick);
+
+  debugEl.style.backgroundColor = "lavender";
+  debugEl.textContent = "5";
 
   onThrowClick({ currentTarget: throwButton });
 }

@@ -11,6 +11,21 @@
       rel="stylesheet"
     />
     <style>
+      #debug {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 10px;
+        height: 10px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 10px;
+        font-weight: 700;
+        color: #000;
+      }
       #view:not(.loaded) .board,
       #view:not(.loaded) .dice-area,
       #view:not(.loaded) .player,
@@ -21,6 +36,7 @@
   </head>
   <body>
     <div id="app">
+      <div id="debug" style="background-color: red;"></div>
       <div id="view">
         <div class="loader-area">
           <div class="loader"></div>

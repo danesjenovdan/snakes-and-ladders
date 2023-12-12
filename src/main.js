@@ -228,9 +228,12 @@ async function preloadImages() {
 async function preloadSounds() {
   const promises = Object.values(gameState.sounds).map((sound) => {
     return new Promise((resolve) => {
-      sound.audio = new Audio(sound.url);
+      sound.audio = new Audio();
       sound.audio.addEventListener("canplaythrough", resolve);
       sound.audio.addEventListener("error", resolve);
+      sound.audio.preload = "auto";
+      sound.audio.src = sound.url;
+      sound.audio.load();
     });
   });
   await Promise.all(promises);
@@ -437,6 +440,7 @@ function preload() {
 
   // timeout preload
   setTimeout(() => {
+    console.error("Preload timeout");
     resolvePreload();
   }, 5000);
 
@@ -446,7 +450,10 @@ function preload() {
     preloadSounds(),
   ]).then(
     () => resolvePreload(),
-    () => resolvePreload()
+    () => {
+      console.error("Preload failed");
+      resolvePreload();
+    }
   );
 
   return promise;

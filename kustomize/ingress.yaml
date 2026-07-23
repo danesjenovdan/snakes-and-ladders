@@ -1,23 +1,23 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: snakes-and-ladders-nginx
+  name: snakes-and-ladders
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-production"
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   tls:
     - hosts:
-        - snakes-and-ladders.lb.djnd.si
-      secretName: snakes-and-ladders-nginx-tls
+        - kace-in-lestve.ostro.si
+      secretName: snakes-and-ladders-tls
   rules:
-    - host: snakes-and-ladders.lb.djnd.si
+    - host: kace-in-lestve.ostro.si
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: snakes-and-ladders-nginx
+                name: snakes-and-ladders
                 port:
                   number: 80

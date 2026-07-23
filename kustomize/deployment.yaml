@@ -15,7 +15,7 @@ spec:
         app: snakes-and-ladders
     spec:
       containers:
-        - name: snakes-and-ladders-nginx
+        - name: snakes-and-ladders
           image: snakes-and-ladders
           ports:
             - name: http

@@ -1,14 +1,12 @@
-version: "3"
-
 services:
-  vite:
+  app:
     build:
       context: ./
       dockerfile: dev.Dockerfile
     working_dir: /app
-    command: yarn dev
+    command: npm run dev
     volumes:
-      - ./public:/app/public:delegated,rw
-      - ./src:/app/src:delegated,rw
+      - ./public:/app/public
+      - ./src:/app/src
     ports:
       - "5173:5173"

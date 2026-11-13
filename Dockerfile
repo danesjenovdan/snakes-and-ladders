@@ -1,19 +1,19 @@
 # ---
 # build stage image
 # ---
-FROM node:20-alpine as build
+FROM node:26-alpine as build
 
 # set current directory
 WORKDIR /app
 
 # install dependencies
-COPY package.json yarn.lock ./
-RUN yarn
+COPY package.json package-lock.json ./
+RUN npm ci
 
 # copy all files and run build
 COPY src src/
 COPY public public/
-RUN yarn build
+RUN npm run build
 
 # ---
 # actual image
